@@ -35,7 +35,7 @@ const ClientType = new GraphQLObjectType({
 
 const UserType = new GraphQLObjectType({
 	name: 'User',
-	description: 'Each user',
+	description: 'DB user',
 	fields: {
 		id: {
 			type: new GraphQLNonNull(GraphQLID)
@@ -67,7 +67,6 @@ const schema = new GraphQLSchema({
 		      		}
 		      	},
 		      	resolve: (root, params, options) => {
-		      		console.log('options:', root, options, params);
 		      		const user = User.findById(params.id);
 		      		return user;
 		      	}
@@ -99,9 +98,7 @@ const schema = new GraphQLSchema({
 		    		},
 		    	},
 		    	resolve: (root, params, options) => {
-		    		console.log('root, params, options:', root, params, options);
 		    		return Client.findById(params.id);
-		    		// return new Error('wooow')
 		    	}
 		    }
 		}
@@ -109,7 +106,7 @@ const schema = new GraphQLSchema({
     mutation: new GraphQLObjectType({
     	name: 'Mutation',
     	fields: {
-			createUser: {  // This is the part we can use import.
+			createUser: {
 				type: UserType,
 				args: {
 				  firstName: {
