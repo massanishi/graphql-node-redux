@@ -6,8 +6,8 @@ import { connect } from "react-redux";
 class AppContainer extends Component {
   componentWillMount() {
     // this.props.actions.getUsers();
-    this.props.actions.getUser();
-    this.props.actions.createUser('john', 'kaey');
+    this.props.actions.getUser(1); // 1 is an arbituary user id.
+    this.props.actions.createUser('john', 'key');
   }
 
   renderUsers(users) {
@@ -19,7 +19,6 @@ class AppContainer extends Component {
 
   render() {
     const { users } = this.props;
-    console.log('users', users);
     return <div>
       { this.renderUsers(users) }
     </div>

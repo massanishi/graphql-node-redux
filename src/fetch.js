@@ -14,7 +14,6 @@ export function graphql(query) {
     return response.json();
   })
   .then((responseBody) => {
-    console.log('responseBody:', responseBody);
     if (responseBody && responseBody.errors) {
       throw new Error(responseBody.errors[0].message);
     }
