@@ -41,13 +41,17 @@ export function getUsers() {
 
 export function getUser(id) {
     return dispatch => {
-        graphql(`{
-            user(id:${id}){
-                firstName,
-                lastName
-            }}
-        `)
-        .then(res => res.json())
+        graphql({
+            query: `query getUser($id: String!){
+                user(id:$id){
+                    firstName,
+                    lastName
+                }
+            }`,
+            variables: {
+                id: '1',
+            }
+        })
         .then(body => {
             dispatch(body.data);
         });
@@ -56,15 +60,23 @@ export function getUser(id) {
 
 export function createUser(firstName, lastName) {
     return dispatch => {
-        graphql(`{
-            createUser(
-                firstName: ${firstName},
-                lastName: ${lastName}
-            )
-        }`)
-        .then(res => res.json())
+        graphql({
+            query: `mutation M($user: User!){
+                createUser(
+                    user: $user,
+                ){firstName}
+            }`
+            ,
+            variables: {
+                user: {
+                    firstName,
+                    lastName,
+                },
+            },
+        })
         .then(body => {
-            dispatch(body.data);
+            console.log('body.data:', body.data);
+            // dispatch(body.data);
         });
     };
 }

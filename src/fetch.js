@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 
-export function graphql(query) {
+export function graphql(payload) {
+  // console.log('payload:', payload);
   return fetch('http://localhost:3000/graphql', {
     method: 'POST',
     mode: 'cors',
@@ -8,7 +9,10 @@ export function graphql(query) {
       'Accept': 'application/json',
       'content-type': 'application/json',
     },
-    body: JSON.stringify({query})
+    body: JSON.stringify({
+      query: payload.query,
+      variables: payload.variables,
+    })
   })
   .then((response) => {
     return response.json();

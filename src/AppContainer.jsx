@@ -5,8 +5,7 @@ import { connect } from "react-redux";
 
 class AppContainer extends Component {
   componentWillMount() {
-    // this.props.actions.getUsers();
-    this.props.actions.getUser(1); // 1 is an arbituary user id.
+    // this.props.actions.getUser(1); // 1 is an arbituary user id.
     this.props.actions.createUser('john', 'key');
   }
 

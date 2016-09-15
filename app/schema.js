@@ -63,10 +63,11 @@ const schema = new GraphQLSchema({
 		      	type: UserType,
 		      	args: {
 		      		id: {
-		      			type: new GraphQLNonNull(GraphQLID)
+		      			type: new GraphQLNonNull(GraphQLString)
 		      		}
 		      	},
 		      	resolve: (root, params, options) => {
+		      		console.log('params:', params);
 		      		const user = User.findById(params.id);
 		      		return user;
 		      	}
@@ -119,10 +120,30 @@ const schema = new GraphQLSchema({
 				  },
 				},
 				resolve: (root, params, options) => {
+					console.log('params:', params);
 				  return User.create({
 				    firstName: params.firstName,
 				  	lastName: params.lastName,
 				  });
+				}
+			},
+			updateUser: {
+				type: UserType,
+				args: {
+					id: {
+				    type: new GraphQLNonNull(GraphQLInt)
+				  },
+				  firstName: {
+				    type: new GraphQLNonNull(GraphQLString)
+				  },
+				},
+				resolve: (root, params, options) => {
+					console.log('params:', params);
+					return User.findById(params.id)
+					.then(u => {
+						u.firstName = params.firstName;
+						return u.save();
+					});
 				}
 			},
 		}
