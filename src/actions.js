@@ -61,22 +61,23 @@ export function getUser(id) {
 export function createUser(firstName, lastName) {
     return dispatch => {
         graphql({
-            query: `mutation M($user: User!){
-                createUser(
-                    user: $user,
+            query: `mutation M($firstName: String!){
+                firstUser: createUser(
+                    firstName: $firstName,
+                    lastName: "${lastName}"
+                ){firstName},
+                secondUser: createUser(
+                    firstName: #firstUser,
+                    lastName: "random"
                 ){firstName}
             }`
             ,
             variables: {
-                user: {
-                    firstName,
-                    lastName,
-                },
+                firstName: "hi",
             },
         })
         .then(body => {
-            console.log('body.data:', body.data);
-            // dispatch(body.data);
+            console.log('body:', body);
         });
     };
 }
