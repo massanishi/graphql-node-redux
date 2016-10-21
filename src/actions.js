@@ -49,7 +49,7 @@ export function getUser(id) {
                 }
             }`,
             variables: {
-                id: '1',
+                id,
             }
         })
         .then(body => {
@@ -58,22 +58,36 @@ export function getUser(id) {
     };
 }
 
-export function createUser(firstName, lastName) {
+export function createUserWithVariables(firstName, lastName) {
     return dispatch => {
         graphql({
-            query: `mutation M($firstName: String!){
+            query: `mutation M($firstName: String!, $lastName: String!){
                 firstUser: createUser(
                     firstName: $firstName,
-                    lastName: "${lastName}"
-                ){firstName},
-                secondUser: createUser(
-                    firstName: #firstUser,
-                    lastName: "random"
-                ){firstName}
-            }`
-            ,
+                    lastName: $lastName,
+                ){id},
+            }`,
             variables: {
-                firstName: "hi",
+                firstName,
+                lastName,
+            },
+        })
+        .then(body => {
+            console.log('body:', body);
+        });
+    };
+}
+
+export function createClients(labels) {
+    return dispatch => {
+        graphql({
+            query: `mutation M($labels: [String]!){
+                createClients(labels: $labels){
+                    id
+                },
+            }`,
+            variables: {
+                labels,
             },
         })
         .then(body => {

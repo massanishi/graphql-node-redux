@@ -120,12 +120,30 @@ const schema = new GraphQLSchema({
 				  },
 				},
 				resolve: (root, params, options) => {
-					console.log('params:', params);
 				  return User.create({
 				    firstName: params.firstName,
 				  	lastName: params.lastName,
 				  });
 				}
+			},
+			createClients: {
+				type: new GraphQLList(ClientType),
+				args: {
+				  labels: {
+				    name: 'client\'s label',
+				    type: new GraphQLNonNull(new GraphQLList(GraphQLString)),
+				  },
+				},
+				resolve: (root, params, options) => {
+
+					const ps = params.labels.map(l => {
+						return Client.create({
+				  	  label: l,
+				  	});
+					});
+
+				  return Promise.all(ps);
+				},
 			},
 			updateUser: {
 				type: UserType,

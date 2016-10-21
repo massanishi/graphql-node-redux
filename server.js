@@ -24,11 +24,11 @@ app.use('/graphql', graphQLHTTP(req => {
 }));
 
 // serve static files from current directory;
-app.use(express.static(__dirname + "/"));
+app.use(express.static(__dirname + "/build"));
 
 const server = app.listen(PORT, () => {
   const host = server.address().address;
   const port = server.address().port;
 
-  console.log("Falcor Server listening at http://%s:%s", host, port);
+  console.log("Redux Server listening at http://%s:%s", host, port);
 });
